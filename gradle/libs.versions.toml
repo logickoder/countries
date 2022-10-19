@@ -1,0 +1,62 @@
+[versions]
+accompanist = "0.25.1"
+compose = "1.2.1"
+compose-compiler = "1.3.0"
+hilt = "2.44"
+kotlin = "1.7.10"
+ktor = "2.1.1"
+lifecycle = "2.6.0-alpha02"
+room = "2.4.3"
+
+[libraries]
+# Accompanist
+accompanist-refresh = { module = "com.google.accompanist:accompanist-swiperefresh", version.ref = "accompanist" }
+accompanist-placeholder = { module = "com.google.accompanist:accompanist-placeholder-material", version.ref = "accompanist" }
+accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist" }
+# Appyx Navigation
+appyx = "com.bumble.appyx:core:1.0-alpha09"
+# Core
+core = "androidx.core:core-ktx:1.9.0"
+core-appcompat = "androidx.appcompat:appcompat:1.5.1"
+core-constraintlayout = "androidx.constraintlayout:constraintlayout:2.1.4"
+core-java8 = "com.android.tools:desugar_jdk_libs:1.1.5"
+core-material = "com.google.android.material:material:1.6.1"
+core-splashscreen = "androidx.core:core-splashscreen:1.0.0"
+# Compose
+compose-activity = "androidx.activity:activity-compose:1.6.0"
+compose-constraintlayout = "androidx.activity:activity-compose:1.6.0"
+compose-material = { module = "androidx.compose.material:material", version.ref = "compose" }
+compose-material-icons = { module = "androidx.compose.material:material-icons-extended", version.ref = "compose" }
+compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
+compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
+compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
+compose-ui-test-junit = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
+# JUnit
+junit4 = "junit:junit:4.13.2"
+junit4-androidx = "androidx.test.ext:junit:1.1.3"
+# Kotlinx Coroutines
+kotlinx-coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
+# Kotlinx Immutable
+kotlinx-immutable = "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5"
+# Kotlinx Serialization
+kotlinx-serialization-ktor = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+kotlinx-serialization-json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0"
+# Ktor
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
+ktor-client-serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktor" }
+ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
+ktor-client-contentnegotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+# Lifecycle
+lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
+lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
+lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
+# Napier
+napier = "io.github.aakira:napier:2.6.1"
+# Preferences Datastore
+datastore = "androidx.datastore:datastore-preferences:1.0.0"
+
+[bundles]
+
+[plugins]
+ksp = { id = "com.google.devtools.ksp", version = "1.7.10-1.0.6" }
