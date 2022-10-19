@@ -78,6 +78,8 @@ dependencies {
     implementation(libs.accompanist.systemuicontroller)
     // Appyx Navigation
     implementation(libs.appyx)
+    // Coil
+    implementation(libs.coil)
     // Compose
     implementation(libs.compose.activity)
     implementation(libs.compose.constraintlayout)
@@ -95,6 +97,12 @@ dependencies {
     // Kotlinx serialization
     implementation(libs.kotlinx.serialization.ktor)
     implementation(libs.kotlinx.serialization.json)
+    // Ktor
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.okhttp)
+    implementation(libs.ktor.client.serialization)
+    implementation(libs.ktor.client.logging)
+    implementation(libs.ktor.client.contentnegotiation)
     // Lifecycle
     implementation(libs.lifecycle.runtime)
     implementation(libs.lifecycle.viewmodel)

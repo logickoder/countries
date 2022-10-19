@@ -1,43 +1,53 @@
 package dev.logickoder.countries
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import dev.logickoder.countries.ui.theme.CountriesTheme
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
+import com.bumble.appyx.core.integration.NodeHost
+import com.bumble.appyx.core.integrationpoint.NodeComponentActivity
+import dev.logickoder.countries.data.repository.SettingsRepository
+import dev.logickoder.countries.domain.AppTheme
+import dev.logickoder.countries.navigation.Navigation
+import dev.logickoder.countries.presentation.theme.CountriesTheme
 
-class MainActivity : ComponentActivity() {
+class MainActivity : NodeComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            CountriesTheme {
+
+            CountriesTheme(darkTheme = isDarkMode()) {
                 // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting("Android")
-                }
+                NodeHost(
+                    integrationPoint = integrationPoint,
+                    factory = { context ->
+                        Navigation(
+                            buildContext = context,
+                        )
+                    }
+                )
             }
         }
     }
-}
 
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    CountriesTheme {
-        Greeting("Android")
+    @Composable
+    private fun isDarkMode(): Boolean {
+        val context = LocalContext.current
+        val repository = remember {
+            SettingsRepository.getInstance(context)
+        }
+        val theme by repository.theme.collectAsState(initial = AppTheme.System)
+        val darkTheme = isSystemInDarkTheme()
+        return remember(theme) {
+            when (theme) {
+                AppTheme.Light -> false
+                AppTheme.Dark -> true
+                AppTheme.System -> darkTheme
+            }
+        }
     }
 }
