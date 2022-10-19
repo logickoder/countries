@@ -8,7 +8,6 @@ buildscript {
         classpath("com.android.tools.build:gradle:7.3.1")
 
         val kotlin = libs.versions.kotlin.get()
-        val hilt = libs.versions.hilt.get()
         classpath(kotlin("gradle-plugin", version = kotlin))
         classpath(kotlin("serialization", version = kotlin))
     }
