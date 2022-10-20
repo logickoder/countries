@@ -15,7 +15,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -49,7 +48,7 @@ fun CountryItem(
         content = {
             val (width, height) = maxWidth to maxWidth / 2
             Card(
-                modifier = Modifier.clip(MaterialTheme.shapes.large),
+                shape = MaterialTheme.shapes.large,
                 elevation = 2.dp,
                 content = {
                     Column(

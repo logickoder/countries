@@ -1,5 +1,6 @@
 package dev.logickoder.countries.presentation.widgets
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -8,8 +9,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.Button
+import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.ListItem
@@ -24,11 +24,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import dev.logickoder.countries.R
 import dev.logickoder.countries.domain.AppTheme
 import dev.logickoder.countries.presentation.theme.CountriesTheme
+import dev.logickoder.countries.presentation.theme.padding
 import dev.logickoder.countries.presentation.theme.secondaryPadding
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -77,17 +81,20 @@ fun AppBar(
             )
 
             if (showDialog) {
-                AlertDialog(
+                Dialog(
                     onDismissRequest = { showDialog = false },
-                    title = {
-                        Text(
-                            text = stringResource(R.string.choose_theme),
-                            style = MaterialTheme.typography.h5
-                        )
-                    },
-                    shape = MaterialTheme.shapes.large,
-                    text = {
-                        Column {
+                    content = {
+                        Column(
+                            modifier = Modifier
+                                .clip(MaterialTheme.shapes.large)
+                                .background(MaterialTheme.colors.surface)
+                                .padding(padding()),
+                            verticalArrangement = Arrangement.spacedBy(secondaryPadding())
+                        ) {
+                            Text(
+                                text = stringResource(R.string.choose_theme),
+                                style = MaterialTheme.typography.h5
+                            )
                             AppTheme.values().forEach {
                                 ListItem(
                                     modifier = Modifier.clickable {
@@ -105,16 +112,24 @@ fun AppBar(
                                     },
                                 )
                             }
+                            Card(
+                                modifier = modifier
+                                    .clip(MaterialTheme.shapes.medium)
+                                    .clickable(onClick = { showDialog = false }),
+                                shape = MaterialTheme.shapes.medium,
+                                backgroundColor = MaterialTheme.colors.background,
+                                elevation = 2.dp,
+                                content = {
+                                    Row(
+                                        modifier = Modifier.padding(secondaryPadding()),
+                                        content = {
+                                            Text(stringResource(id = R.string.cancel))
+                                        },
+                                    )
+                                }
+                            )
                         }
                     },
-                    confirmButton = {
-                        Button(
-                            onClick = { showDialog = false },
-                            content = {
-                                Text(stringResource(R.string.cancel))
-                            }
-                        )
-                    }
                 )
             }
         },

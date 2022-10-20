@@ -27,8 +27,8 @@ fun BorderItem(
     }
     Card(
         modifier = modifier
-            .clickable(onClick = click)
-            .clip(MaterialTheme.shapes.medium),
+            .clip(MaterialTheme.shapes.medium)
+            .clickable(onClick = click),
         shape = MaterialTheme.shapes.medium,
         elevation = 2.dp,
         content = {

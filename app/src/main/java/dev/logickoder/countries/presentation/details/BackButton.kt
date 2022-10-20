@@ -26,8 +26,8 @@ fun BackButton(
 ) {
     Card(
         modifier = modifier
-            .clickable(onClick = onBack)
-            .clip(MaterialTheme.shapes.medium),
+            .clip(MaterialTheme.shapes.medium)
+            .clickable(onClick = onBack),
         shape = MaterialTheme.shapes.medium,
         elevation = 2.dp,
         content = {
