@@ -10,7 +10,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import com.bumble.appyx.core.integration.NodeHost
 import com.bumble.appyx.core.integrationpoint.NodeComponentActivity
-import dev.logickoder.countries.data.repository.SettingsRepository
 import dev.logickoder.countries.domain.AppTheme
 import dev.logickoder.countries.navigation.Navigation
 import dev.logickoder.countries.presentation.theme.CountriesTheme
@@ -38,7 +37,7 @@ class MainActivity : NodeComponentActivity() {
     private fun isDarkMode(): Boolean {
         val context = LocalContext.current
         val repository = remember {
-            SettingsRepository.getInstance(context)
+            SettingsViewModel.getInstance(context)
         }
         val theme by repository.theme.collectAsState(initial = AppTheme.System)
         val darkTheme = isSystemInDarkTheme()

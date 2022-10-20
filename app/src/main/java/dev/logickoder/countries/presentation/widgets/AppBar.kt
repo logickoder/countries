@@ -18,27 +18,22 @@ import androidx.compose.material.RadioButton
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import dev.logickoder.countries.R
-import dev.logickoder.countries.data.repository.SettingsRepository
 import dev.logickoder.countries.domain.AppTheme
 import dev.logickoder.countries.presentation.theme.CountriesTheme
 import dev.logickoder.countries.presentation.theme.secondaryPadding
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-private fun AppBar(
+fun AppBar(
     theme: AppTheme,
     modifier: Modifier = Modifier,
     onTheme: (AppTheme) -> Unit,
@@ -123,26 +118,6 @@ private fun AppBar(
                 )
             }
         },
-    )
-}
-
-@Composable
-fun AppBar(
-    modifier: Modifier = Modifier,
-) {
-    val context = LocalContext.current
-    val scope = rememberCoroutineScope()
-    val repository = remember {
-        SettingsRepository.getInstance(context)
-    }
-    val theme by repository.theme.collectAsState(initial = AppTheme.System)
-    val onTheme: (AppTheme) -> Unit = remember {
-        { scope.launch { repository.setTheme(it) } }
-    }
-    AppBar(
-        theme = theme,
-        modifier = modifier,
-        onTheme = onTheme,
     )
 }
 

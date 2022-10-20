@@ -12,15 +12,13 @@ import androidx.compose.material.icons.outlined.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.logickoder.countries.CountriesViewModel
 import dev.logickoder.countries.R
+import dev.logickoder.countries.rememberCountriesViewModel
 
 @Composable
 private fun SearchField(
@@ -60,10 +58,7 @@ private fun SearchField(
 fun SearchField(
     modifier: Modifier = Modifier,
 ) {
-    val context = LocalContext.current
-    val viewModel = remember {
-        CountriesViewModel.getInstance(context)
-    }
+    val viewModel = rememberCountriesViewModel()
     val search by viewModel.search.collectAsState()
     SearchField(
         modifier = modifier,

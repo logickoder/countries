@@ -9,7 +9,10 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import dev.logickoder.countries.data.model.Country
+import dev.logickoder.countries.domain.AppTheme
 import dev.logickoder.countries.presentation.theme.padding
 import dev.logickoder.countries.presentation.widgets.AppBar
 import dev.logickoder.countries.presentation.widgets.CountryItem
@@ -19,47 +22,64 @@ import kotlinx.collections.immutable.ImmutableList
 
 @Composable
 fun CountriesScreen(
+    isRefreshing: Boolean,
     countries: ImmutableList<Country>,
+    theme: AppTheme,
     modifier: Modifier = Modifier,
+    onRefresh: () -> Unit,
+    onTheme: (AppTheme) -> Unit,
 ) {
     Scaffold(
         modifier = modifier,
         topBar = {
-            AppBar(modifier = Modifier.fillMaxWidth())
+            AppBar(
+                modifier = Modifier.fillMaxWidth(),
+                theme = theme,
+                onTheme = onTheme,
+            )
         },
         content = { scaffoldPadding ->
             val padding = padding()
             val itemModifier = remember {
                 Modifier
                     .fillMaxWidth()
-                    .padding(vertical = padding)
+                    .padding(top = padding)
+            }
+            val searchItemModifier = remember {
+                Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = padding)
             }
             val dropdownItemModifier = remember {
-                Modifier
-                    .fillMaxWidth(0.5f)
-                    .padding(vertical = padding)
+                Modifier.fillMaxWidth(0.6f)
             }
-            LazyColumn(
+            SwipeRefresh(
                 modifier = Modifier.padding(scaffoldPadding),
-                contentPadding = PaddingValues(padding),
+                state = rememberSwipeRefreshState(isRefreshing = isRefreshing),
+                onRefresh = onRefresh,
                 content = {
-                    item {
-                        SearchField(itemModifier)
-                    }
-                    item {
-                        ContinentsDropdownField(dropdownItemModifier)
-                    }
-                    items(
-                        items = countries,
-                        key = { it.code },
-                        itemContent = { country ->
-                            CountryItem(
-                                modifier = itemModifier,
-                                name = country.name,
-                                image = country.flag,
-                                population = country.population,
-                                region = country.region,
-                                capital = country.capital,
+                    LazyColumn(
+                        contentPadding = PaddingValues(padding),
+                        content = {
+                            item {
+                                SearchField(searchItemModifier)
+                            }
+                            item {
+                                ContinentsDropdownField(dropdownItemModifier)
+                            }
+                            items(
+                                items = countries,
+                                key = { it.code },
+                                itemContent = { country ->
+                                    CountryItem(
+                                        modifier = itemModifier,
+                                        name = country.name,
+                                        image = country.flag,
+                                        population = country.population,
+                                        region = country.region,
+                                        capital = country.capital,
+                                    )
+                                }
                             )
                         }
                     )

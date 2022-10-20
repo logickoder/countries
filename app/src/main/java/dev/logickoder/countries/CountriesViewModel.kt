@@ -1,6 +1,9 @@
 package dev.logickoder.countries
 
 import android.content.Context
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
 import androidx.datastore.preferences.core.stringPreferencesKey
 import dev.logickoder.countries.data.local.CountriesDataStore
 import dev.logickoder.countries.data.model.Country
@@ -10,6 +13,7 @@ import dev.logickoder.countries.data.remote.CountriesLoader
 import dev.logickoder.countries.domain.Continent
 import dev.logickoder.countries.utils.ResultWrapper
 import dev.logickoder.countries.utils.SingletonHolder
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -30,6 +34,10 @@ class CountriesViewModel private constructor(
     private val _region = MutableStateFlow(Continent.Africa)
     val region = _region.asStateFlow()
 
+
+    private val _isRefreshing = MutableStateFlow(false)
+    val isRefreshing = _isRefreshing.asStateFlow()
+
     private val _search = MutableStateFlow("")
     val search = _search.asStateFlow()
 
@@ -38,7 +46,10 @@ class CountriesViewModel private constructor(
         flow2 = local.get(COUNTRIES),
         flow3 = _search,
         transform = { region, countries, search ->
-            countries.decode().filter(region, search)
+            _isRefreshing.update { true }
+            val result = countries.decode().filter(region, search).toImmutableList()
+            _isRefreshing.update { false }
+            result
         }
     ).flowOn(Dispatchers.Default)
 
@@ -51,7 +62,8 @@ class CountriesViewModel private constructor(
     }
 
     suspend fun refreshCountries(): ResultWrapper<Unit> = withContext(Dispatchers.IO) {
-        return@withContext when (val data = remote.getCountries()) {
+        _isRefreshing.update { true }
+        val result = when (val data = remote.getCountries()) {
             is ResultWrapper.Failure -> {
                 ResultWrapper.Failure(data.error)
             }
@@ -61,6 +73,8 @@ class CountriesViewModel private constructor(
                 ResultWrapper.Success(Unit)
             }
         }
+        _isRefreshing.update { false }
+        return@withContext result
     }
 
     private fun String?.decode() = this?.let { data ->
@@ -73,5 +87,13 @@ class CountriesViewModel private constructor(
 
     companion object : SingletonHolder<CountriesViewModel, Context>(::CountriesViewModel) {
         private val COUNTRIES = stringPreferencesKey("countries")
+    }
+}
+
+@Composable
+fun rememberCountriesViewModel(): CountriesViewModel {
+    val context = LocalContext.current
+    return remember {
+        CountriesViewModel.getInstance(context)
     }
 }
