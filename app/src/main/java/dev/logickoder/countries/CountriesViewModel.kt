@@ -44,7 +44,10 @@ class CountriesViewModel private constructor(
     val search = _search.asStateFlow()
 
     private val localCountries = local.get(COUNTRIES).map {
-        it.decode()
+        _isRefreshing.update { true }
+        val result = it.decode()
+        _isRefreshing.update { false }
+        result
     }.flowOn(Dispatchers.Default)
 
     val countries = combine(
