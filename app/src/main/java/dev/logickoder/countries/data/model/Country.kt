@@ -1,9 +1,12 @@
 package dev.logickoder.countries.data.model
 
+import android.os.Parcelable
 import androidx.compose.runtime.Stable
 import dev.logickoder.countries.domain.Continent
+import kotlinx.parcelize.Parcelize
 
 @Stable
+@Parcelize
 data class Country(
     val borders: List<String>,
     val capital: String,
@@ -18,4 +21,4 @@ data class Country(
     val region: String,
     val subregion: String,
     val domains: List<String>
-)
+) : Parcelable

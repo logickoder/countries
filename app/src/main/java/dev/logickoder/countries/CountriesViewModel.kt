@@ -11,6 +11,7 @@ import dev.logickoder.countries.data.model.CountryNetwork
 import dev.logickoder.countries.data.model.toCountry
 import dev.logickoder.countries.data.remote.CountriesLoader
 import dev.logickoder.countries.domain.Continent
+import dev.logickoder.countries.domain.CountryDetail
 import dev.logickoder.countries.utils.ResultWrapper
 import dev.logickoder.countries.utils.SingletonHolder
 import kotlinx.collections.immutable.toImmutableList
@@ -18,7 +19,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.decodeFromString
@@ -34,20 +37,23 @@ class CountriesViewModel private constructor(
     private val _region = MutableStateFlow(Continent.Africa)
     val region = _region.asStateFlow()
 
-
     private val _isRefreshing = MutableStateFlow(false)
     val isRefreshing = _isRefreshing.asStateFlow()
 
     private val _search = MutableStateFlow("")
     val search = _search.asStateFlow()
 
+    private val localCountries = local.get(COUNTRIES).map {
+        it.decode()
+    }.flowOn(Dispatchers.Default)
+
     val countries = combine(
         flow = _region,
-        flow2 = local.get(COUNTRIES),
+        flow2 = localCountries,
         flow3 = _search,
         transform = { region, countries, search ->
             _isRefreshing.update { true }
-            val result = countries.decode().filter(region, search).toImmutableList()
+            val result = countries.filter(region, search).toImmutableList()
             _isRefreshing.update { false }
             result
         }
@@ -59,6 +65,22 @@ class CountriesViewModel private constructor(
 
     fun updateRegion(continent: Continent) {
         _region.update { continent }
+    }
+
+    suspend fun getCountryDetail(
+        code: String
+    ): CountryDetail = withContext(Dispatchers.Default) {
+        val countries = localCountries.first()
+        // get the country from the code
+        val country = countries.first { it.code == code }
+        // then get the border countries
+        val borders = countries.filter { it.code in country.borders }.map {
+            CountryDetail.Border(it.name, it.code)
+        }
+        return@withContext CountryDetail(
+            country = country,
+            borders = borders,
+        )
     }
 
     suspend fun refreshCountries(): ResultWrapper<Unit> = withContext(Dispatchers.IO) {

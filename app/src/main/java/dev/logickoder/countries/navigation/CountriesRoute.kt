@@ -1,7 +1,6 @@
 package dev.logickoder.countries.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -9,6 +8,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import com.bumble.appyx.core.modality.BuildContext
 import com.bumble.appyx.core.node.Node
+import com.bumble.appyx.navmodel.backstack.BackStack
+import com.bumble.appyx.navmodel.backstack.operation.push
 import dev.logickoder.countries.domain.AppTheme
 import dev.logickoder.countries.presentation.countries.CountriesScreen
 import dev.logickoder.countries.rememberCountriesViewModel
@@ -18,6 +19,7 @@ import kotlinx.coroutines.launch
 
 class CountriesRoute(
     buildContext: BuildContext,
+    private val backStack: BackStack<Navigation.Route>,
 ) : Node(buildContext) {
 
 
@@ -34,9 +36,13 @@ class CountriesRoute(
                 scope.launch { countriesVm.refreshCountries() }
             }
         }
-        LaunchedEffect(key1 = Unit, block = {
-            onRefresh()
-        })
+        val onDetails: (String) -> Unit = remember {
+            {
+                scope.launch {
+                    backStack.push(Navigation.Route.Details(countriesVm.getCountryDetail(it)))
+                }
+            }
+        }
 
         val theme by settingsVm.theme.collectAsState(initial = AppTheme.System)
         val countries by countriesVm.countries.collectAsState(initial = persistentListOf())
@@ -49,6 +55,7 @@ class CountriesRoute(
             onTheme = onTheme,
             isRefreshing = isRefreshing,
             onRefresh = onRefresh,
+            onDetails = onDetails,
         )
     }
 }

@@ -68,48 +68,43 @@ dependencies {
     coreLibraryDesugaring(libs.core.java8)
     implementation(libs.core)
     implementation(libs.core.appcompat)
-    implementation(libs.core.constraintlayout)
     implementation(libs.core.material)
     // Core
     implementation(libs.core.splashscreen)
-    // Accompanist
+    // Accompanist - Jetpack Compose extras
+    implementation(libs.accompanist.flow)
     implementation(libs.accompanist.refresh)
     implementation(libs.accompanist.placeholder)
     implementation(libs.accompanist.systemuicontroller)
-    // Appyx Navigation
+    // Appyx Navigation - for navigation
     implementation(libs.appyx)
-    // Coil
+    // Coil - for loading images asynchronously
     implementation(libs.coil)
-    // Compose
+    // Compose - Jetpack Compose core libraries
     implementation(libs.compose.activity)
-    implementation(libs.compose.constraintlayout)
     implementation(libs.compose.material)
     implementation(libs.compose.material.icons)
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling.preview)
     debugImplementation(libs.compose.ui.tooling)
     androidTestImplementation(libs.compose.ui.test.junit)
-    // JUnit
+    // JUnit - for testing
     implementation(libs.junit4)
     androidTestImplementation(libs.junit4.androidx)
-    // Kotlinx immutable
+    // Kotlinx immutable - immutable data type wrapper
     implementation(libs.kotlinx.immutable)
-    // Kotlinx serialization
+    // Kotlinx serialization - for serializing and deserializing json
     implementation(libs.kotlinx.serialization.ktor)
     implementation(libs.kotlinx.serialization.json)
-    // Ktor
+    // Ktor - for network calls
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.client.okhttp)
     implementation(libs.ktor.client.serialization)
     implementation(libs.ktor.client.logging)
     implementation(libs.ktor.client.contentnegotiation)
-    // Lifecycle
-    implementation(libs.lifecycle.runtime)
-    implementation(libs.lifecycle.viewmodel)
-    implementation(libs.lifecycle.viewmodel.compose)
-    // Napier
+    // Napier - for logging
     implementation(libs.napier)
-    // Preferences datastore
+    // Preferences datastore - for cache
     implementation(libs.datastore)
 
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")

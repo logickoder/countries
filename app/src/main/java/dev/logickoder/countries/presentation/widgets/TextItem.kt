@@ -5,6 +5,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 
 @Composable
@@ -12,19 +13,20 @@ fun TextItem(
     title: String,
     content: String,
     modifier: Modifier = Modifier,
+    style: TextStyle = MaterialTheme.typography.body1
 ) {
     Row(
         modifier = modifier,
         content = {
             Text(
                 "$title: ",
-                style = MaterialTheme.typography.body1.copy(
+                style = style.copy(
                     fontWeight = FontWeight.Bold,
                 )
             )
             Text(
                 content,
-                style = MaterialTheme.typography.body1,
+                style = style,
             )
         },
     )

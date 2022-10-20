@@ -4,10 +4,10 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.platform.LocalContext
 import com.bumble.appyx.core.integration.NodeHost
 import com.bumble.appyx.core.integrationpoint.NodeComponentActivity
 import dev.logickoder.countries.domain.AppTheme
@@ -18,7 +18,10 @@ class MainActivity : NodeComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-
+            val viewModel = rememberCountriesViewModel()
+            LaunchedEffect(key1 = Unit, block = {
+                viewModel.refreshCountries()
+            })
             CountriesTheme(darkTheme = isDarkMode()) {
                 // A surface container using the 'background' color from the theme
                 NodeHost(
@@ -35,11 +38,8 @@ class MainActivity : NodeComponentActivity() {
 
     @Composable
     private fun isDarkMode(): Boolean {
-        val context = LocalContext.current
-        val repository = remember {
-            SettingsViewModel.getInstance(context)
-        }
-        val theme by repository.theme.collectAsState(initial = AppTheme.System)
+        val viewModel = rememberSettingsViewModel()
+        val theme by viewModel.theme.collectAsState(initial = AppTheme.System)
         val darkTheme = isSystemInDarkTheme()
         return remember(theme) {
             when (theme) {

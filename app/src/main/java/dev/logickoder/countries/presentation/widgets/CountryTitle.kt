@@ -13,7 +13,7 @@ fun CountryTitle(
 ) {
     Text(
         title,
-        style = MaterialTheme.typography.h6.copy(
+        style = MaterialTheme.typography.h5.copy(
             fontWeight = FontWeight.Black,
         ),
         modifier = modifier,

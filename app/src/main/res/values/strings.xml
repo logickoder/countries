@@ -11,9 +11,16 @@
     <string name="cancel">Cancel</string>
 
     <!-- Country Text -->
+    <string name="native_name">Native Name</string>
     <string name="population">Population</string>
+    <string name="sub_region">Sub Region</string>
     <string name="region">Region</string>
     <string name="capital">Capital</string>
+    <string name="tld">Top Level Domain</string>
+    <string name="currencies">Currencies</string>
+    <string name="languages">Languages</string>
+    <string name="border">Border Countries</string>
 
     <string name="search">Search for a country…</string>
+    <string name="back">Back</string>
 </resources>

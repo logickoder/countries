@@ -1,5 +1,6 @@
 package dev.logickoder.countries.presentation.countries
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -28,6 +29,7 @@ fun CountriesScreen(
     modifier: Modifier = Modifier,
     onRefresh: () -> Unit,
     onTheme: (AppTheme) -> Unit,
+    onDetails: (String) -> Unit,
 ) {
     Scaffold(
         modifier = modifier,
@@ -71,8 +73,11 @@ fun CountriesScreen(
                                 items = countries,
                                 key = { it.code },
                                 itemContent = { country ->
+                                    val onClick = remember(country.code) {
+                                        { onDetails(country.code) }
+                                    }
                                     CountryItem(
-                                        modifier = itemModifier,
+                                        modifier = itemModifier.clickable(onClick = onClick),
                                         name = country.name,
                                         image = country.flag,
                                         population = country.population,
