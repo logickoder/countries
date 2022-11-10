@@ -1,5 +1,6 @@
 package dev.logickoder.countries.utils
 
 import java.text.DecimalFormat
+import java.text.NumberFormat
 
-val NumberFormatter = DecimalFormat.getIntegerInstance()
+val NumberFormatter: NumberFormat = DecimalFormat.getIntegerInstance()

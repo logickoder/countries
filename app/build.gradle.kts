@@ -7,7 +7,7 @@ plugins {
 
 @Suppress("UnstableApiUsage")
 android {
-    compileSdkVersion(33)
+    compileSdk = 33
 
     namespace = "dev.logickoder.countries"
 
