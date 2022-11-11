@@ -25,7 +25,7 @@ class MainActivity : NodeComponentActivity() {
             CountriesTheme(darkTheme = isDarkMode()) {
                 // A surface container using the 'background' color from the theme
                 NodeHost(
-                    integrationPoint = integrationPoint,
+                    integrationPoint = appyxIntegrationPoint,
                     factory = { context ->
                         Navigation(
                             buildContext = context,
