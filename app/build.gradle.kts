@@ -1,8 +1,8 @@
 plugins {
-    id("com.android.application")
-    id("kotlin-android")
-    id("kotlinx-serialization")
-    id("kotlin-parcelize")
+    id(libs.plugins.android.application.get().pluginId)
+    id(libs.plugins.kotlin.android.get().pluginId)
+    id(libs.plugins.kotlin.parcelize.get().pluginId)
+    id(libs.plugins.kotlin.serialization.get().pluginId)
 }
 
 @Suppress("UnstableApiUsage")
@@ -38,8 +38,8 @@ android {
     compileOptions.apply {
         // Flag to enable support for the new language APIs
         isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     buildFeatures.apply {
@@ -59,7 +59,7 @@ android {
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
         kotlinOptions {
             freeCompilerArgs = listOf("-opt-in=kotlin.RequiresOptIn")
-            jvmTarget = "11"
+            jvmTarget = "17"
         }
     }
 }
